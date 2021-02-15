@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func SaveWorkflow(workflowReq models.Workflow) (models.Workflow, error) {
+func SaveWorkflow(workflowReq *models.Workflow) (*models.Workflow, error) {
 	log.Printf("Saving worflow %v", workflowReq)
 	workflow, err := repository.GetDB().SaveWorkflow(workflowReq)
 	if err != nil {
@@ -17,7 +17,7 @@ func SaveWorkflow(workflowReq models.Workflow) (models.Workflow, error) {
 	return workflow, err
 }
 
-func FindWorkflowByName(workflowName string) (models.Workflow, error) {
+func FindWorkflowByName(workflowName string) (*models.Workflow, error) {
 	log.Printf("Finding workflow by name : %s", workflowName)
 	workflow, err := repository.GetDB().FindWorkflowByName(workflowName)
 	if err != nil {
@@ -40,7 +40,7 @@ func DeleteWorkflowByName(workflowName string) error {
 // GetWorkflows is used to fetch all the workflows for the GET call API
 // Implements a pagination approach
 // Also supports filters
-func GetWorkflows(pageNumber int, pageSize int, sortBy models.SortByFields) ([]models.Workflow, int, error) {
+func GetWorkflows(pageNumber int, pageSize int, sortBy models.SortByFields) ([]*models.Workflow, int, error) {
 	log.Printf("Getting workflows for pageNumber: %d, pageSize: %d", pageNumber, pageSize)
 	workflows, totalWorkflowsCount, err := repository.GetDB().GetWorkflows(pageNumber, pageSize, sortBy)
 	if err != nil {
