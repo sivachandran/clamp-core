@@ -213,7 +213,7 @@ func (p *postgres) getDB() *pg.DB {
 	return p.db
 }
 
-func (p *postgres) closeDB() {
+func (p *postgres) closeDB() { // nolint:unused
 	if p.db != nil {
 		log.Println("Disconnecting from DB")
 		p.db.Close()

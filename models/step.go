@@ -175,10 +175,10 @@ func (step *Step) setMode(mode interface{}) error {
 	return nil
 }
 
-func (step *Step) getHTTPVal() executors.HTTPVal {
+func (step *Step) getHTTPVal() executors.HTTPVal { // nolint:unused
 	return step.Val.(executors.HTTPVal)
 }
 
-func (step *Step) getAMQPVal() *executors.AMQPVal {
+func (step *Step) getAMQPVal() *executors.AMQPVal { // nolint:unused
 	return step.Val.(*executors.AMQPVal)
 }

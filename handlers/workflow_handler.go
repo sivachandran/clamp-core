@@ -34,7 +34,7 @@ var (
 	})
 )
 
-//CustomError is a customised error format for our library
+// CustomError is a customized error format for our library
 type CustomError struct {
 	StatusCode int
 	Err        error
@@ -44,7 +44,7 @@ func (r *CustomError) Error() string {
 	return fmt.Sprintf("status %d: err %v", r.StatusCode, r.Err)
 }
 
-//ErrorRequest sends base 503 error
+// ErrorRequest sends base 503 error
 func ErrorRequest() error {
 	return &CustomError{
 		StatusCode: 503,
@@ -110,7 +110,7 @@ func fetchWorkflowBasedOnWorkflowName() gin.HandlerFunc {
 		workflowName := c.Param("workflow")
 		workflowByWokflowNameCounter.WithLabelValues(workflowName).Inc()
 		result, err := services.FindWorkflowByName(workflowName)
-		//TODO - handle error scenario. Currently it is always 200 ok
+		// TODO - handle error scenario. Currently it is always 200 ok
 		workflowByWokflowNameHistogram.Observe(time.Since(startTime).Seconds())
 		if err != nil {
 			err := errors.New("No record exists with workflow name : " + workflowName)
