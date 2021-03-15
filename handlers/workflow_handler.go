@@ -77,7 +77,7 @@ func createWorkflowHandler() gin.HandlerFunc {
 			return
 		}
 		log.Printf("Create workflow request : %v \n", workflowReq)
-		serviceFlowRes := models.CreateWorkflow(workflowReq)
+		serviceFlowRes := models.CreateWorkflow(&workflowReq)
 		serviceFlowRes, err = services.SaveWorkflow(serviceFlowRes)
 		workflowRequestHistogram.Observe(time.Since(startTime).Seconds())
 		if err != nil {
