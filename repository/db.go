@@ -28,8 +28,7 @@ type DBInterface interface {
 var db DBInterface
 
 func init() {
-	switch config.ENV.DBDriver {
-	case "postgres":
+	if config.ENV.DBDriver == "postgres" {
 		db = &postgres{}
 	}
 }

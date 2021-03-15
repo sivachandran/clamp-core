@@ -9,8 +9,7 @@ type KafkaStepResponseListenerInterface interface {
 var KafkaStepResponseListener KafkaStepResponseListenerInterface
 
 func init() {
-	switch config.ENV.KafkaDriver {
-	case "kafka":
+	if config.ENV.KafkaDriver == "kafka" {
 		KafkaStepResponseListener = &Consumer{}
 	}
 }

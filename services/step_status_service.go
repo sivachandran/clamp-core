@@ -102,6 +102,8 @@ func PrepareStepStatusResponse(srvReqID uuid.UUID,
 				pausedStepsCount++
 			case models.StatusSkipped:
 				skippedStepsCount++
+			case models.StatusNew, models.StatusInprogress, models.StatusResumed:
+				// do nothing
 			}
 		}
 		// TODO Need to  change this  logic

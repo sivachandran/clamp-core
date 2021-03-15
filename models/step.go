@@ -30,8 +30,9 @@ type Step struct {
 	RequestTransform RequestTransform `json:"requestTransform"`
 	canStepExecute   bool
 	OnFailure        []Step `json:"onFailure"`
-	//shouldStepExecute func(whenCondition string, stepRequest map[string]interface{}, prefix string) (canStepExecute bool, _ error)
-	//transformRequest  func(stepRequest map[string]interface{}, prefix string) (map[string]interface{}, error)
+
+	// shouldStepExecute func(whenCondition string, stepRequest map[string]interface{}, prefix string) (canStepExecute bool, _ error)
+	// transformRequest  func(stepRequest map[string]interface{}, prefix string) (map[string]interface{}, error)
 }
 
 func (step *Step) DidStepExecute() bool {

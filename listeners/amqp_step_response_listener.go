@@ -9,8 +9,7 @@ type AMQPStepResponseListenerInterface interface {
 var AMQPStepResponseListener AMQPStepResponseListenerInterface
 
 func init() {
-	switch config.ENV.QueueDriver {
-	case "amqp":
+	if config.ENV.QueueDriver == "amqp" {
 		AMQPStepResponseListener = &amqpListener{}
 	}
 }
