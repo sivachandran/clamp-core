@@ -5,7 +5,7 @@ const (
 	StepTypeSync  = "SYNC"
 )
 
-const ServiceRequestChannelSize = 20000
+const ServiceRequestChannelSize = 1000
 const ServiceRequestWorkersSize = 100
 
 const ResumeStepResponseChannelSize = 1000
