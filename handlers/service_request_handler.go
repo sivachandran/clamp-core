@@ -74,7 +74,7 @@ func createServiceRequestHandler() gin.HandlerFunc {
 		}
 		requestHeaders := readRequestHeadersAndSetInServiceRequest(c)
 		serviceReq.RequestHeaders = requestHeaders
-		// services.AddServiceRequestToChannel(serviceReq)
+		services.AddServiceRequestToChannel(serviceReq)
 		response := prepareServiceRequestResponse(serviceReq)
 		serviceRequestHistogram.Observe(time.Since(startTime).Seconds())
 		c.JSON(http.StatusOK, response)
