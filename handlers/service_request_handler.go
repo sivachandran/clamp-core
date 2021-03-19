@@ -54,13 +54,14 @@ func createServiceRequestHandler() gin.HandlerFunc {
 		log.Debug("Create service request handler")
 		workflowName := c.Param("workflowName")
 		serviceRequestCounter.WithLabelValues(workflowName).Inc()
-		_, err := services.FindWorkflowByName(workflowName)
+		// _, err := services.FindWorkflowByName(workflowName)
 
-		if err != nil {
-			errorResponse := models.CreateErrorResponse(http.StatusBadRequest, "No record found with given workflow name : "+workflowName)
-			c.JSON(http.StatusBadRequest, errorResponse)
-			return
-		}
+		// if err != nil {
+		// 	errorResponse := models.CreateErrorResponse(http.StatusBadRequest, "No record found with given workflow name : "+workflowName)
+		// 	c.JSON(http.StatusBadRequest, errorResponse)
+		// 	return
+		// }
+		var err error
 
 		requestPayload := readRequestPayload(c)
 		// Create new service request
@@ -73,7 +74,7 @@ func createServiceRequestHandler() gin.HandlerFunc {
 		}
 		requestHeaders := readRequestHeadersAndSetInServiceRequest(c)
 		serviceReq.RequestHeaders = requestHeaders
-		services.AddServiceRequestToChannel(serviceReq)
+		// services.AddServiceRequestToChannel(serviceReq)
 		response := prepareServiceRequestResponse(serviceReq)
 		serviceRequestHistogram.Observe(time.Since(startTime).Seconds())
 		c.JSON(http.StatusOK, response)
