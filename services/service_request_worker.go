@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -28,25 +27,16 @@ var (
 )
 var (
 	serviceRequestChannel chan models.ServiceRequest
-	singletonOnce         sync.Once
 )
 
-func createServiceRequestChannel() chan models.ServiceRequest {
-	singletonOnce.Do(func() {
-		serviceRequestChannel = make(chan models.ServiceRequest, utils.ServiceRequestChannelSize)
-	})
-	return serviceRequestChannel
-}
+func InitServiceRequestWorkers() error {
+	serviceRequestChannel = make(chan models.ServiceRequest, utils.ServiceRequestChannelSize)
 
-func init() {
-	createServiceRequestChannel()
-	createServiceRequestWorkers()
-}
-
-func createServiceRequestWorkers() {
 	for i := 0; i < utils.ServiceRequestWorkersSize; i++ {
 		go worker(i, serviceRequestChannel)
 	}
+
+	return nil
 }
 
 func worker(workerID int, serviceReqChan <-chan models.ServiceRequest) {

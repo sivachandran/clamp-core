@@ -27,11 +27,13 @@ type DBInterface interface {
 
 var db DBInterface
 
-func init() {
+func InitDB() error {
 	switch config.ENV.DBDriver {
 	case "postgres":
 		db = &postgres{}
 	}
+
+	return nil
 }
 
 // GetDB returns the initialized database implementations. Currently only postgres is implemented.

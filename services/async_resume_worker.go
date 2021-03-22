@@ -5,7 +5,6 @@ import (
 	"clamp-core/utils"
 	"errors"
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -14,25 +13,16 @@ import (
 
 var (
 	resumeStepsChannel chan models.AsyncStepResponse
-	singleton          sync.Once
 )
 
-func createResumeStepsChannel() chan models.AsyncStepResponse {
-	singleton.Do(func() {
-		resumeStepsChannel = make(chan models.AsyncStepResponse, utils.ResumeStepResponseChannelSize)
-	})
-	return resumeStepsChannel
-}
+func InitResumeWorkers() error {
+	resumeStepsChannel = make(chan models.AsyncStepResponse, utils.ResumeStepResponseChannelSize)
 
-func init() {
-	createResumeStepsChannel()
-	createResumeStepsWorkers()
-}
-
-func createResumeStepsWorkers() {
 	for i := 0; i < utils.ResumeStepResponseWorkersSize; i++ {
 		go resumeSteps(i, resumeStepsChannel)
 	}
+
+	return nil
 }
 
 func resumeSteps(workerID int, resumeStepsChannel <-chan models.AsyncStepResponse) {

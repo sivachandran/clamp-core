@@ -55,9 +55,6 @@ var ENV = struct {
 	LogLevel string `env:"LOG_LEVEL" envDefault:"info"` // valid values: fatal, error, warn, info, debug and trace
 }{}
 
-func init() {
-	err := env.Parse(&ENV)
-	if err != nil {
-		panic(err)
-	}
+func Load() error {
+	return env.Parse(&ENV)
 }
