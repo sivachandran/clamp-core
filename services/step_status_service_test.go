@@ -24,7 +24,6 @@ func prepareStepsStatus() *models.StepsStatus {
 	return &stepsStatus
 }
 func TestSaveStepsStatus(t *testing.T) {
-
 	stepsStatusReq := prepareStepsStatus()
 	mockDB.SaveStepStatusMockFunc = func(stepStatus *models.StepsStatus) (status *models.StepsStatus, err error) {
 		return stepStatus, nil

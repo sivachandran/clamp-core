@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"clamp-core/config"
 	"clamp-core/executors"
 	"clamp-core/models"
 	"clamp-core/repository"
 	"clamp-core/services"
 	"clamp-core/transform"
 	"clamp-core/utils"
+	"fmt"
 
 	"encoding/json"
 	"net/http"
@@ -25,8 +27,26 @@ var testHTTRouter *gin.Engine
 var testHTTPServer *httptest.Server
 
 func TestMain(m *testing.M) {
+	err := config.Load()
+	if err != nil {
+		fmt.Printf("Loading config failed: %s\n", err)
+	}
+
 	repository.SetDB(repository.NewMemoryDB())
+
+	err = services.InitServiceRequestWorkers()
+	if err != nil {
+		fmt.Printf("Initializinng service request workers failed: %s", err)
+	}
+
+	err = services.InitResumeWorkers()
+	if err != nil {
+		fmt.Printf("Initializinng resume workers failed: %s", err)
+	}
+
 	gin.SetMode(gin.TestMode)
+
+	testHTTRouter = setupRouter()
 
 	testHTTPServer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		httpResponseBody := map[string]interface{}{"id": "1234", "name": "ABC", "email": "abc@sahaj.com", "org": "sahaj"}
@@ -51,7 +71,7 @@ func TestMain(m *testing.M) {
 		Steps: []models.Step{step},
 	}
 
-	_, err := services.SaveWorkflow(&workflow)
+	_, err = services.SaveWorkflow(&workflow)
 	if err != nil {
 		panic(err)
 	}
@@ -82,8 +102,5 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 
-	testHTTRouter = setupRouter()
-
-	//log.SetLevel(log.DebugLevel)
 	os.Exit(m.Run())
 }

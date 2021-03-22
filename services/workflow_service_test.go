@@ -27,7 +27,6 @@ func prepareWorkflow() *models.Workflow {
 	return &workflow
 }
 func TestSaveWorkflow(t *testing.T) {
-
 	workflow := prepareWorkflow()
 	mockDB.SaveWorkflowMockFunc = func(workflow *models.Workflow) (*models.Workflow, error) {
 		return workflow, nil
